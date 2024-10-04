@@ -48,5 +48,5 @@ int main()
     } else if(volba != 1 || volba != 2) {
         printf("Vyberte volbu 1 nebo 2!");
     }
-    return 0;
+    cout << "Stiskněte klávesu pro konec" << endl;
 }
