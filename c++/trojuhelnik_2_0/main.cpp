@@ -18,7 +18,7 @@ int main()
     int volba;
     double a, b, c;
 
-    cout << "Vyberte možnost 1 (Neznáte přeponu) nebo možnost 2 (neznáte odvěsnu): ";
+    cout << "Vyberte moznost 1 (Neznate preponu) nebo moznost 2 (neznate odvesnu): ";
     cin >> volba;
     
     if(volba == 1) {
@@ -28,27 +28,27 @@ int main()
         cin >> b;
         if(a != 0 && b != 0) {
             c = sqrt(a * a + b * b);
-            cout << "Přepona je: " << c;
+            cout << "Prepona je: " << c;
         } else {
-            printf("Strana nesmí být nulová!");
+            printf("Strana nesmi byt nulova!");
         }
     } else if(volba == 2) {
         //Názvy proměnných nemusí odpovídat reálným stranám projúhelníku (a != b)
-        cout << "Odvěsna: ";
+        cout << "Odvesna: ";
         cin >> a;
-        cout << "Přepona: ";
+        cout << "Prepona: ";
         cin >>  c;
         
         if(a < c && a != 0 && c != 0) {
             b = sqrt(c * c - a * a);
-            cout << "Odvěsna je: " << b;
+            cout << "Odvesna je: " << b;
         } else {
-            printf("Odvěsna nesmí být větší než přepona nebo nesmí být hodnota nulová!");    
+            printf("Odvesna nesmi byt vetsi nez prepona nebo nesmi byt hodnota nulova!");    
         }
         
     } else if(volba != 1 || volba != 2) {
         printf("Vyberte volbu 1 nebo 2!");
     }
-    cout << "Stiskněte klávesu pro konec" << endl;
+    cout << endl << "Stisknete klavesu pro konec" << endl;
     getch();
 }
