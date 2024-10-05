@@ -9,7 +9,6 @@ Welcome to GDB Online.
 #include <stdio.h>
 #include <cmath>
 #include <iostream>
-#include <string>
 #include <conio.h>
 
 using namespace std;
