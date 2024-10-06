@@ -23,7 +23,7 @@ int main()
     cin >> souradniceX[0];
     cin >> souradniceX[1];
     
-    cout << "[X2;Y2]: "; << endl;
+    cout << "[X2;Y2]: " << endl;
     cin >> souradniceY[0];
     cin >> souradniceY[1];
     
