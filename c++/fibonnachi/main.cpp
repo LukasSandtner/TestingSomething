@@ -7,16 +7,14 @@ Code, Compile, Run and Debug online from anywhere in world.
 
 *******************************************************************************/
 #include <iostream>
-#include <conio.h>
 
 using namespace std;
 int main()
 {   
-    bool balls = true;
+    int length;
     do {  
-        int length;
         int counter = 0;
-        cout << "\nPočet prvků: ";
+        cout << "\nPočet prvků (0 pro konec): ";
         cin >> length;
         int c = 0;
         int a = 0;
@@ -28,6 +26,5 @@ int main()
             counter++;
             cout << "\t" << b;
         }
-    } while (balls == true);
-    getch();
+    } while (length != 0);
 }
