@@ -1,0 +1,60 @@
+
+import java.util.Scanner;
+
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ */
+/**
+ *
+ * @author st75720
+ */
+public class Bzapr_Cv04_Pr01_SoucetRady {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        int a;
+
+        do {
+//            System.out.println("Program pro soucet prvnich n prirozenych cisel");
+//            System.out.println("----------------------------------------------");
+//            System.out.println("Zadej hodnotu n (n > 0), pro konec zadejte 0:");
+//            Scanner vstup = new Scanner(System.in);
+//            n = vstup.nextInt();
+//            int soucet = 0;
+//
+//            if (n < 0) {
+//                System.out.println("Nesmí být záporné!");
+//            } else {
+//
+//                for (byte i = 1; i <= n; i++) {
+//                    soucet += i;
+//
+//                }
+//                System.out.println("Cyklem: " + soucet);
+//
+//                int soucet2 = n * (n + 1) / 2;
+//                System.out.println("Aritmeticky: " + soucet2);
+//            }
+            //NSD
+            Scanner vstup = new Scanner(System.in);
+            System.out.println("Zadej a (0 pro konec i v b): ");
+            a = vstup.nextInt();
+            System.out.println("Zadej b: ");
+            int b = vstup.nextInt();
+            System.out.printf("NSD(%d, %d)", a, b);
+            while (a != b) {
+                if (a > b) {
+                    a -= b;
+                } else {
+                    b -= a;
+                }
+            }
+            System.out.printf("\nNSD = %d", a);
+        } while (a != 0);
+        System.out.println("KONEC!");
+        System.exit(0);
+    }
+}
