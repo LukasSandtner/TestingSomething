@@ -21,7 +21,6 @@ public class Chatky {
     private static Scanner vstup = new Scanner(System.in);
 
     public static void main(String[] args) {
-        testChatky();
         int moznost;
         do {
             System.out.println("CHATKOVY SYSTEM");
@@ -65,15 +64,8 @@ public class Chatky {
                 default:
                     System.out.println("Neplatna volba, zkus to znova!");
             }
-        } while (moznost != 0);
-    }
-    private static void testChatky() {
-        chatky[0] = 2; 
-        chatky[1] = 4; 
-        chatky[5] = 1; 
-        chatky[8] = 3; 
-        System.out.println("Testovaci data byla pridana do chatek.");
-    }    
+        } while (moznost != 6);
+
     private static String vypsatObsazenost() {
         String vysledek = "Obsazenost chatek:"
                 + "\n-----------------\n";
