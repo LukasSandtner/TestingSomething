@@ -1,11 +1,19 @@
 
 import java.util.Arrays;
 
-public class Bzapr__Cv05_Pr01_Pole {
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ */
+/**
+ *
+ * @author Lukas
+ */
+public class Arr {
 
-        final static int max = 20;
-        final static int min = 1;
-        static final int pocetPrvku = (int)(Math.random() * max) + min;
+    final static int max = 99;
+    final static int min = 2;
+    static final int pocetPrvku = (int) (Math.random() * max) + min;
     static int[] pole = new int[pocetPrvku];
 
     public static void main(String[] args) {
@@ -22,44 +30,47 @@ public class Bzapr__Cv05_Pr01_Pole {
 //        }
 //        
 //        System.out.println("Pole: " + Arrays.toString(pole));
-        
         //VYPIS
         String vypisPole = vypisPole();
         System.out.println(vypisPole);
-        
+
         //POCET PRVKU
-        
-        
+        System.out.println("Pocet prvku v poli: " + pocetPrvku);
+
         //SOUCET
         int soucet = soucetPole();
         System.out.printf("Soucet pole je: %d\n", soucet);
-        
+
         //MAXIMUM
         int maximum = maxPole();
         System.out.println("Maximalni prvek: " + maximum);
-        
+
         //MINIMUM
-        
+        int minimum = minPole();
+        System.out.println("Minimalni prvek: " + minimum);
+
         //PRUMER
-        
+        double prumer = prumerPole();
+        System.out.printf("Prumer: %.2f\n", prumer);
+
+        //OBRACENI
+        polePozpatku();
+
         //RAZENI
+        bublinaRazeni(pole, pocetPrvku);
 
-	//ERATOSTENOVO SITO
+        //ERATOSTENOVO SITO
+        sitoPrvocisel(pole, pocetPrvku);
 
-	//OBRACENI
-
-	/*~~~~~~~~~~~~~~~~~~~~~~*/
-
-	//DIAGONALNI SOUCET
-
-	//VEKTOROVY SOUCIN
-        
+        /*~~~~~~~~~~~~~~~~~~~~~~*/
+        //DIAGONALNI SOUCET
+        //VEKTOROVY SOUCIN
     }
 
     private static String vypisPole() {
         String vypis = "Vypis prvku pole: [";
         for (int i = 0; i < pocetPrvku; i++) {
-            pole[i] = (int)(Math.random() * max) + min;
+            pole[i] = (int) (Math.random() * 98) + 2;
             vypis += pole[i] + ", ";
 
         }
@@ -85,4 +96,68 @@ public class Bzapr__Cv05_Pr01_Pole {
         return max;
     }
 
+    private static int minPole() {
+
+        int min = pole[0];
+        for (int i = 1; i < pole.length; i++) {
+            if (pole[i] < min) {
+                min = pole[i];
+            }
+        }
+        return min;
+    }
+
+    private static double prumerPole() {
+        return soucetPole() / (double) pocetPrvku;
+    }
+
+    private static void polePozpatku() {
+        System.out.print("Pole od konce: [");
+        for (int i = pocetPrvku - 1; i >= 0; i--) {
+            System.out.print(pole[i] + ", ");
+        }
+        System.out.print("]");
+    }
+
+    private static void bublinaRazeni(int[] pole, int pocetPrvku) {
+        boolean vymeneno;
+        for (int i = 0; i < pocetPrvku - 1; i++) {
+            vymeneno = false;
+            for (int j = 0; j < pocetPrvku - i - 1; j++) {
+                if (pole[j] > pole[j + 1]) {
+                    int temp = pole[j];
+                    pole[j] = pole[j + 1];
+                    pole[j + 1] = temp;
+                    vymeneno = true;
+                }
+            }
+            if (vymeneno == false) {
+                break;
+            }
+        }
+        System.out.println("\nSerazeni: " + Arrays.toString(pole));
+    }
+
+    private static void sitoPrvocisel(int[] pole, int pocetPrvku) {
+        boolean[] jePrvocislo = new boolean[max + 1];
+        Arrays.fill(jePrvocislo, true);
+        jePrvocislo[0] = jePrvocislo[1] = false;
+
+        for (int i = 2; i * i <= max; i++) {
+            if (jePrvocislo[i]) {
+                for (int j = i * i; j <= max; j += i) {
+                    jePrvocislo[j] = false;
+                }
+            }
+        }
+
+        System.out.print("Prvocisla v poli: [");
+        for (int i = 0; i < pocetPrvku; i++) {
+            if (jePrvocislo[pole[i]]) {
+                System.out.print(pole[i] + ", ");
+            }
+        }
+        System.out.println("]");
+    }
 }
+
