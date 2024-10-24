@@ -121,7 +121,7 @@ public class Arr {
 
     private static void bublinaRazeni(int[] pole, int pocetPrvku) {
         boolean vymeneno;
-        for (int i = 0; i < pocetPrvku - 1; i++) {
+        for (int i = 0; i < pocetPrvku; i++) {
             vymeneno = false;
             for (int j = 0; j < pocetPrvku - i - 1; j++) {
                 if (pole[j] > pole[j + 1]) {
