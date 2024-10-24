@@ -1,90 +1,152 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
+package cz.fei.upce.cv05.evidence.chatek;
 
-package com.mycompany.mavenproject1;
-
-import java.util.Random;
 import java.util.Scanner;
 
-public class Mavenproject1 {
+public class EvidenceChatekApp {
 
- 
-/**
-* Vytvořte jednoduchou hru „Kámen, nůžky, papír“.
-*/
-    static Scanner input = new Scanner(System.in); 
-    final static int maximalniVelikost = 3;
- 
-    private enum Volba {
-        KAMEN, NUZKY, PAPIR, EXIT, ERROR;
-    }
-    
+    // Konstanty pro definovani jednotlivych operaci (pouze pro cisty kod)
+    private static final int KONEC_PROGRAMU = 0;
+    private static final int OBSAZENOST = 1;
+    private static final int PRAZDNE_CHATKY = 2;
+    private static final int PRIDAVANI = 3;
+    private static final int ODEBIRANI = 4;
+    private static final int CELEK_LIDI = 5;
+    private static final int LIDI_V_CHATCE = 6;
+    private static final int POCET_CHATEK = 10;
+    private static final int KAPACITA_CHATEK = 4;
+    private static final int[] chatky = new int[POCET_CHATEK];
+    private static Scanner vstup = new Scanner(System.in);
+
     public static void main(String[] args) {
-        while (true) {             
-            Volba uzivatelVyber = volbaUzivatele();
-            if (uzivatelVyber == Volba.EXIT) {
-                System.out.println("Hra skončila.");
-                break;
+        int moznost;
+        do {
+            System.out.println("CHATKOVY SYSTEM");
+            System.out.println("----------------");
+            System.out.println("Vyber moznost zadanim prislusneho cisla:");
+            System.out.println("0. Konec programu\n"
+                    + "1. Obsazenost chatek\n"
+                    + "2. Vypsani prazdnych chatek\n"
+                    + "3. Pridat lidi do chatky\n"
+                    + "4. Odebrat lidi z chatky\n"
+                    + "5. Celkovy pocet lidi v chatkach\n"
+                    + "6. Konkretni chatka");
+            moznost = vstup.nextInt();
+
+            switch (moznost) {
+                case KONEC_PROGRAMU:
+                    System.out.println("Konec programu");
+                    System.exit(0);
+                    break;
+                case OBSAZENOST:
+                    String obsazenost = vypsatObsazenost();
+                    System.out.println(obsazenost);
+                    break;
+                case PRAZDNE_CHATKY:
+                    String prazdneChatky = vypsatPrazdneChatky();
+                    System.out.println(prazdneChatky);
+                    break;
+                case PRIDAVANI:
+                    pridatLidiChatky();
+                    break;
+                case ODEBIRANI:
+                    odebratLidiChatky();
+                    break;
+                case CELEK_LIDI:
+                    int celkovyPocetLidi = vypsatCelkovyPocetLidi();
+                    System.out.println("Celkovy pocet lidi v chakach (max 40): "
+                            + celkovyPocetLidi);
+                    break;
+                case LIDI_V_CHATCE:
+                    konkretniChatka();
+                    break;
+                default:
+                    System.out.println("Neplatna volba, zkus to znova!");
             }
- 
-            Volba botVyber = volbaBot();
-            
-            System.out.println("Hráč: " + uzivatelVyber);
-            System.out.println("POČÍTAČ: " + botVyber);
-            System.out.println("------------------------------");
-            
-            String vysledek = Hra(uzivatelVyber, botVyber);
-            System.out.println(vysledek);
+        } while (moznost != 0);
+    }
+
+    private static String vypsatObsazenost() {
+        String vysledek = "Obsazenost chatek:"
+                + "\n-----------------\n";
+        for (int i = 0; i < POCET_CHATEK; i++) {
+            vysledek += "Chatka " + (i + 1) + ": " + chatky[i] + " lidi\n";
+        }
+        return vysledek;
+    }
+
+    private static void pridatLidiChatky() {
+        System.out.println("Zadej cislo chatky (maximalni cislo 10): ");
+        int cisloChatky = vstup.nextInt();
+        System.out.println("Zadej kolik lidi chces pridat (max 4): ");
+        int pocetLidi = vstup.nextInt();
+        int pole[] = {cisloChatky, pocetLidi};
+        if (cisloChatky > 0 && cisloChatky <= POCET_CHATEK) {
+            if (chatky[cisloChatkyNaIndex(cisloChatky)] + pocetLidi <= KAPACITA_CHATEK) {
+                chatky[cisloChatkyNaIndex(cisloChatky)] += pocetLidi;
+                System.out.println(pocetLidi + "byli/o pridani/o do chatky"
+                        + cisloChatky);
+            } else {
+                System.out.println("PREKROCENA KAPACITA CHATKY,"
+                        + " POCET NEPRIDAN!");
+            }
+        } else {
+            System.out.println("Neplatne cislo chatky!");
         }
     }
-    
-    private static Volba volbaUzivatele() {
-        System.out.println("Vyber si: kámen, nůžky, papír nebo 'exit' pro ukončení");
-        String vyber = input.next().toLowerCase();
-        switch (vyber) {
-            case "kámen":
-                return Volba.KAMEN;
-            case "nůžky":
-                return Volba.NUZKY;
-            case "papír":
-                return Volba.PAPIR;
-            case "exit":
-                return Volba.EXIT;
-            default: 
-                System.out.println("Neplatná volba. Zkus to znovu.");
-                return volbaUzivatele();
+
+    private static int cisloChatkyNaIndex(int cisloChatky) {
+        return cisloChatky - 1;
+    }
+
+    private static void odebratLidiChatky() {
+        System.out.println("Zadej cislo chatky (max 10): ");
+        int cisloChatky = vstup.nextInt();
+        System.out.println("Zadej kolik lidi chces odebrat: ");
+
+        int pocetLidi = vstup.nextInt();
+        if (cisloChatky > 0 && cisloChatky <= POCET_CHATEK) {
+            if (chatky[cisloChatkyNaIndex(cisloChatky)] - pocetLidi >= 0) {
+                chatky[cisloChatkyNaIndex(cisloChatky)] -= pocetLidi;
+                System.out.println(pocetLidi
+                        + " lidi byli/o odebrani/o z chatky "
+                        + cisloChatky);
+            } else {
+                System.out.println("Prekrocena kapacita odebrani v chatce!");
+            }
+        } else {
+            System.out.println("Neplatne cislo chatky!");
         }
     }
-    
-    private static Volba volbaBot() {
-        Random random = new Random();
-        int vyber = random.nextInt(maximalniVelikost); 
-        switch (vyber) {
-            case 0:
-                return Volba.KAMEN;
-            case 1:
-                return Volba.NUZKY;
-            case 2:
-                return Volba.PAPIR;
-            default: 
-                return Volba.ERROR;       
+
+    private static int vypsatCelkovyPocetLidi() {
+        int celkovyPocet = 0;
+        for (int i = 0; i < chatky.length; i++) {
+            celkovyPocet += chatky[i];
         }
+        return celkovyPocet;
     }
-    
-    private static String Hra(Volba uzivatelVolba, Volba vyberBot) {
-        if (uzivatelVolba == vyberBot) {
-            return "Remíza!";
+
+    private static String vypsatPrazdneChatky() {
+        System.out.println("Prazdne chatky: ");
+        String chatka = "Chatka: ";
+        for (int i = 0; i < POCET_CHATEK; i++) {
+            if (chatky[i] == 0) {
+                //System.out.println("Chatka" + (i + 1));
+                chatka += "\n" + (i + 1);
+            }
         }
-        switch (uzivatelVolba) {
-            case KAMEN:
-                return (vyberBot == Volba.NUZKY) ? "Vyhrál hráč" : "Vyhrál AI";
-            case NUZKY:
-                return (vyberBot == Volba.PAPIR) ? "Vyhrál hráč" : "Vyhrál AI";
-            case PAPIR:
-                return (vyberBot == Volba.KAMEN) ? "Vyhrál hráč" : "Vyhrál AI";      
-            default:
-                return "Nastala chyba."; 
+        return chatka;
+    }
+
+    private static void konkretniChatka() {
+        System.out.println("Zadej cislo chatky (max 10): ");
+        int cisloChatky = vstup.nextInt();
+        if(cisloChatky <= POCET_CHATEK){
+        int lidiChatka = chatky[cisloChatkyNaIndex(cisloChatky)];
+        System.out.println("V chatce " + cisloChatky + " je tolik lidí : "
+                + lidiChatka);
+        } else {
+            System.out.println("Chatka neexistuje!");  
         }
     }
 }
