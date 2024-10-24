@@ -47,7 +47,7 @@ public class Chatky {
                     int[] pridatLidi = pridatLidiChatky();
                     System.out.println("Bylo pridano do chatky " + pridatLidi[0]
                             + " tolik lidi: " + pridatLidi[1]
-                            + " (pokud byl prekrocen limit)");
+                            + " (pokud nebyl prekrocen limit)");
                     break;
                 case 4:
                     odebratLidiChatky();
