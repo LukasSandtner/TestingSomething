@@ -15,7 +15,7 @@ public class EvidenceChatekApp {
     private static final int POCET_CHATEK = 10;
     private static final int KAPACITA_CHATEK = 4;
     private static final int[] chatky = new int[POCET_CHATEK];
-    private static Scanner vstup = new Scanner(System.in);
+    private static final Scanner vstup = new Scanner(System.in);
 
     public static void main(String[] args) {
         int moznost;
@@ -33,36 +33,33 @@ public class EvidenceChatekApp {
             moznost = vstup.nextInt();
 
             switch (moznost) {
-                case KONEC_PROGRAMU:
+                case KONEC_PROGRAMU -> {
                     System.out.println("Konec programu");
                     System.exit(0);
-                    break;
-                case OBSAZENOST:
+                }
+                case OBSAZENOST -> {
                     String obsazenost = vypsatObsazenost();
                     System.out.println(obsazenost);
-                    break;
-                case PRAZDNE_CHATKY:
+                }
+                case PRAZDNE_CHATKY -> {
                     String prazdneChatky = vypsatPrazdneChatky();
                     System.out.println(prazdneChatky);
-                    break;
-                case PRIDAVANI:
-                    pridatLidiChatky();
-                    break;
-                case ODEBIRANI:
-                    odebratLidiChatky();
-                    break;
-                case CELEK_LIDI:
+                }
+                case PRIDAVANI -> pridatLidiChatky();
+                case ODEBIRANI -> odebratLidiChatky();
+                case CELEK_LIDI -> {
                     int celkovyPocetLidi = vypsatCelkovyPocetLidi();
                     System.out.println("Celkovy pocet lidi v chakach (max 40): "
                             + celkovyPocetLidi);
-                    break;
-                case LIDI_V_CHATCE:
-                    konkretniChatka();
-                    break;
-                default:
-                    System.out.println("Neplatna volba, zkus to znova!");
+                }
+                case LIDI_V_CHATCE -> konkretniChatka();
+                default -> System.out.println("Neplatna volba, zkus to znova!");
             }
         } while (moznost != 0);
+    }
+
+    private static int cisloChatkyNaIndex(int cisloChatky) {
+        return cisloChatky - 1;
     }
 
     private static String vypsatObsazenost() {
@@ -73,15 +70,27 @@ public class EvidenceChatekApp {
         }
         return vysledek;
     }
+    
+    private static String vypsatPrazdneChatky() {
+        System.out.println("Prazdne chatky: ");
+        String chatka = "Chatka: ";
+        for (int i = 0; i < POCET_CHATEK; i++) {
+            if (chatky[i] == 0) {
+                //System.out.println("Chatka" + (i + 1));
+                chatka += "\n" + (i + 1);
+            }
+        }
+        return chatka;
+    }
 
     private static void pridatLidiChatky() {
         System.out.println("Zadej cislo chatky (maximalni cislo 10): ");
         int cisloChatky = vstup.nextInt();
         System.out.println("Zadej kolik lidi chces pridat (max 4): ");
         int pocetLidi = vstup.nextInt();
-        int pole[] = {cisloChatky, pocetLidi};
         if (cisloChatky > 0 && cisloChatky <= POCET_CHATEK) {
-            if (chatky[cisloChatkyNaIndex(cisloChatky)] + pocetLidi <= KAPACITA_CHATEK) {
+            if (chatky[cisloChatkyNaIndex(cisloChatky)] + pocetLidi 
+                    <= KAPACITA_CHATEK) {
                 chatky[cisloChatkyNaIndex(cisloChatky)] += pocetLidi;
                 System.out.println(pocetLidi + "byli/o pridani/o do chatky"
                         + cisloChatky);
@@ -92,10 +101,6 @@ public class EvidenceChatekApp {
         } else {
             System.out.println("Neplatne cislo chatky!");
         }
-    }
-
-    private static int cisloChatkyNaIndex(int cisloChatky) {
-        return cisloChatky - 1;
     }
 
     private static void odebratLidiChatky() {
@@ -126,27 +131,15 @@ public class EvidenceChatekApp {
         return celkovyPocet;
     }
 
-    private static String vypsatPrazdneChatky() {
-        System.out.println("Prazdne chatky: ");
-        String chatka = "Chatka: ";
-        for (int i = 0; i < POCET_CHATEK; i++) {
-            if (chatky[i] == 0) {
-                //System.out.println("Chatka" + (i + 1));
-                chatka += "\n" + (i + 1);
-            }
-        }
-        return chatka;
-    }
-
     private static void konkretniChatka() {
         System.out.println("Zadej cislo chatky (max 10): ");
         int cisloChatky = vstup.nextInt();
-        if(cisloChatky <= POCET_CHATEK){
-        int lidiChatka = chatky[cisloChatkyNaIndex(cisloChatky)];
-        System.out.println("V chatce " + cisloChatky + " je tolik lidí : "
-                + lidiChatka);
+        if (cisloChatky <= POCET_CHATEK && cisloChatky > 0) {
+            int lidiChatka = chatky[cisloChatkyNaIndex(cisloChatky)];
+            System.out.println("V chatce " + cisloChatky + " je tolik lidí : "
+                    + lidiChatka);
         } else {
-            System.out.println("Chatka neexistuje!");  
+            System.out.println("Chatka neexistuje!");
         }
     }
 }
