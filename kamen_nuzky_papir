@@ -7,6 +7,9 @@ public class App {
     /**
      * Vytvořte jednoduchou hru „Kámen, nůžky, papír“.
      */
+public enum Volba {
+    KAMEN("kámen"), NUZKY("nůžky"), PAPIR("papír"), EXIT("exit"), ERROR("error");
+}
     static Scanner input = new Scanner(System.in);
     final static int maximalniVelikost = 3;
 
