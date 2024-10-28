@@ -57,7 +57,7 @@ public class Prvocisla {
     }
 
     public static boolean jePrvocislo(int a) {
-        if (a <= 2) {
+        if (a < 2) {
             return false;
         }
 
