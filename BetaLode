@@ -1,0 +1,100 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ */
+package com.mycompany.lodebeta;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+/**
+ *
+ * @author Lukas
+ */
+public class LodeBeta {
+
+    static final char VOLNO = 'O';
+    static final char OBSAZENO = '*';
+    static final int LOD_DELKA = 3;
+    static Scanner vstup = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        while (true) {
+
+            System.out.print("Zadejte pocet radku (0 pro konec): ");
+            int pocetRadku = vstup.nextInt();
+            if (opakovaniPole(pocetRadku)) {
+                break;
+            }
+
+        }
+
+    }
+
+    private static boolean opakovaniPole(int pocetRadku) {
+        if (pocetRadku == 0) {
+            System.out.println("KONEC");
+            return true;
+        } else {
+            System.out.print("Zadejte pocet sloupcu: ");
+            int pocetSloupcu = vstup.nextInt();
+            System.out.print("Zadejte pocet lodi: ");
+            int pocetLodi = vstup.nextInt();
+
+            char[][] hraciPole = poleLode(pocetRadku, pocetSloupcu, pocetLodi);
+            System.out.println("Vysledne hraci pole: ");
+
+            vypisPole(hraciPole);
+        }
+        return false;
+    }
+
+    private static char[][] poleLode(int pocetRadku, int pocetSloupcu, int pocetLodi) {
+        char[][] hraciPole = new char[pocetRadku][pocetSloupcu];
+        for (int i = 0; i < hraciPole.length; i++) {
+            for (int j = 0; j < hraciPole[i].length; j++) {
+                hraciPole[i][j] = VOLNO;
+            }
+        }
+        Lode(pocetLodi, pocetRadku, pocetSloupcu, hraciPole);
+        return hraciPole;
+    }
+
+    private static void Lode(int pocetLodi, int pocetRadku, int pocetSloupcu, char[][] hraciPole) {
+        for (int l = 0; l < pocetLodi; l++) {
+            boolean umisteno = false;
+            int pokus = 0;
+            while (!umisteno && pokus < 99) {
+                pokus++;
+                int souradniceX = random(0, pocetRadku);
+                int souradniceY = random(0, pocetSloupcu - LOD_DELKA);
+
+                boolean volne = true;
+                for (int i = 0; i < LOD_DELKA; i++) {
+                    if (hraciPole[souradniceX][souradniceY + i] == OBSAZENO) {
+                        volne = false;
+                        break;
+                    }
+                }
+                if (volne) {
+                    for (int i = 0; i < LOD_DELKA; i++) {
+                        hraciPole[souradniceX][souradniceY + i] = OBSAZENO;
+                    }
+                    umisteno = true;
+                }
+            }
+        }
+    }
+
+    private static int random(int min, int max) {
+        return (int) (Math.random() * (max - min) + min);
+    }
+
+    private static void vypisPole(char[][] pole) {
+        for (char[] poleL : pole) {
+            for (int j = 0; j < poleL.length; j++) {
+                System.out.print(poleL[j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
