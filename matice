@@ -1,0 +1,47 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ */
+package bzapr_cv06_pr01_matice;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+/**
+ *
+ * @author st75720
+ */
+public class Bzapr_Cv06_Pr01_Matice {
+
+    //TODO
+    //Skalarni soucin matice
+    //urceni symetrie matice
+    //Urceni transponovane matice
+    //Urceni souctu prvku nad hlavni diagonalou
+    //Vynulovani prvku pod vedlejsi diagonalou
+    //Usporadat radky matice podle hodnot ve sloupcich
+    //Vektorovy soucin dvou matic (vypsat pomoci metody a konstruktoru)
+    
+    public static void main(String[] args) {
+        Scanner vstup = new Scanner(System.in);
+        System.out.println("Zadej pocet radku: ");
+        int pocetRadku = vstup.nextInt();
+        System.out.println("Zadej pocet sloupcu: ");
+        int pocetSloupcu = vstup.nextInt();
+        int[][] matice = new int[pocetRadku][pocetSloupcu];
+        int soucet = 0;
+        for (int y = 0; y < pocetRadku; y++) {
+            System.out.print("{");
+            for (int x = 0; x < pocetSloupcu; x++) {
+                matice[y][x] = (int) (Math.random()* 5) + 1;
+                System.out.print(" " + matice[y][x]);
+                soucet += matice[y][x];
+            }
+            System.out.println(" }");
+        }
+        System.out.println("Soucet:");
+        System.out.println(soucet);
+
+    }
+
+}
