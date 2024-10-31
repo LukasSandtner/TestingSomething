@@ -3,13 +3,14 @@
 using namespace std;
 
 int main() {
-	int n;
-
-	do {
+	while(true) {
 		double pi = 0.0;
 		cout << "Zadejte pocet iteraci (0 pro konec): ";
+		int n;
 		cin >> n;
-
+		if(n == 0) {
+			cout << "KONEC";	
+		}
 		for (int i = 0; i < n; i++) {
 			if (i % 2 == 0) {
 				pi += 4.0 / (2.0 * i + 1.0);
@@ -18,10 +19,5 @@ int main() {
 			}
 		}
 		cout << "Priblizna hodnota pi je: " << pi << endl;
-	} while(n != 0);
-	
-    cout << "KONEC";
-
-
-	return 0;
+	}	
 }
