@@ -9,7 +9,8 @@ int main() {
 		int n;
 		cin >> n;
 		if(n == 0) {
-			cout << "KONEC";	
+			cout << "KONEC";
+			break;
 		}
 		for (int i = 0; i < n; i++) {
 			if (i % 2 == 0) {
