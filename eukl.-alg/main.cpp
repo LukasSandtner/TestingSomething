@@ -1,33 +1,27 @@
-/******************************************************************************
-
-Welcome to GDB Online.
-GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
-C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
-Code, Compile, Run and Debug online from anywhere in world.
-
-*******************************************************************************/
 #include <iostream>
 
 using namespace std;
 int main()
 {
-	int a, b;
+	int a, b, tmp;
 	int counter = 0;
 	int counter2 = 0;
-	int c = 0;
-	int x, y, tmp;
+	
 	while(true) {
 		cout << "\nNSD" << endl << "---";
-		cout << "\nZadejte x (0 pro konec): " << endl;
+		cout << "\nZadejte a (0 pro konec): ";
 		cin >> a;
+		
 		if(a == 0) {
 			cout << "KONEC";
 			break;
 		}
-		cout << "\nZadejte y: " << endl;
+		
+		cout << "\nZadejte b: ";
 		cin >> b;
-		if(b == 0) {
-			cout << "b nesmi byt nula!\n";
+		
+		if(b <= 0) {
+			cout << "b nesmi byt nula a min!\n";
 			continue;
 		}
 
@@ -44,12 +38,13 @@ int main()
 		cout << "----------------";
 
 		while(b != 0) {
-            int temp = b;
-            b = a % b;
-            a = temp;
+			int temp = b;
+			b = a % b;
+			a = temp;
 			counter2++;
 		}
-			cout << "\nNSD: " << a << endl;
-			cout << "\nOpakovani: " << counter2 << endl;
+		cout << "\nNSD: " << a << endl;
+		cout << "\nOpakovani: " << counter2 << endl;
+
 	}
 }
