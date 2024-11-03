@@ -1,35 +1,57 @@
-/******************************************************************************
-
-Welcome to GDB Online.
-  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
-  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
-  Code, Compile, Run and Debug online from anywhere in world.
-
-*******************************************************************************/
 #include <stdio.h>
 #include <iostream>
 
 using namespace std;
 int main()
 {
-    cout << "Zadejte sekundy: ";
-    long celkoveSekundy;
-    cin >> celkoveSekundy;
-        int sekundyZaMinutu = 60;
-        int sekundyZaHodinu = sekundyZaMinutu * 60;
-        int sekundyZaDen = sekundyZaHodinu * 24;
+	while(true) {
+		cout << "Zadejte sekundy (0 pro konec): ";
+		long celkoveSekundy;
+		cin >> celkoveSekundy;
+		if(celkoveSekundy == 0){
+		    break;
+		}
+		int sekundyZaMinutu = 60;
+		int sekundyZaHodinu = sekundyZaMinutu * 60;
+		int sekundyZaDen = sekundyZaHodinu * 24;
 
-        // Výpočet
-        int dny = celkoveSekundy / sekundyZaDen;
-        int zbyvajiciSekundy = celkoveSekundy % sekundyZaDen;
+		int dny = celkoveSekundy / sekundyZaDen;
+		int zbyvajiciSekundy = celkoveSekundy % sekundyZaDen;
 
-        int hodiny = zbyvajiciSekundy / sekundyZaHodinu;
-        zbyvajiciSekundy %= sekundyZaHodinu;
+		int hodiny = zbyvajiciSekundy / sekundyZaHodinu;
+		zbyvajiciSekundy %= sekundyZaHodinu;
 
-        int minuty = zbyvajiciSekundy / sekundyZaMinutu;
-        int sekundy = zbyvajiciSekundy % sekundyZaMinutu;
-    
-    cout << "Dny: " << dny << endl <<"Hodiny: " << hodiny << endl << "Minuty: " << minuty << endl << "Sekundy: " << sekundy;
-    
-    return 0;
+		int minuty = zbyvajiciSekundy / sekundyZaMinutu;
+		int secs = zbyvajiciSekundy % sekundyZaMinutu;
+
+		cout << "Dny: " << dny << endl <<"Hodiny: " << hodiny << endl << "Minuty: " << minuty << endl << "Sekundy: " << secs << endl;
+
+
+		cout << "Zadejte pocet sekund: ";
+        int sekundy;
+		cin >> sekundy;
+
+		dny = 0, hodiny = 0, minuty = 0;
+
+		while (sekundy >= sekundyZaDen) {
+			sekundy -= sekundyZaDen;
+			dny++;
+		}
+
+		while (sekundy >= sekundyZaHodinu) { 
+			sekundy -= sekundyZaHodinu;
+			hodiny++;
+		}
+
+		while (sekundy >= sekundyZaMinutu) {
+			sekundy -= sekundyZaMinutu;
+			minuty++;
+		}
+
+		cout << "Dny: " << dny << endl;
+		cout << "Hodiny: " << hodiny << endl;
+		cout << "Minuty: " << minuty << endl;
+		cout << "Sekundy: " << sekundy << endl;
+
+	}
 }
