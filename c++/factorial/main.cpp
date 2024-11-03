@@ -1,28 +1,38 @@
-/******************************************************************************
-
-Welcome to GDB Online.
-  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby,
-  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
-  Code, Compile, Run and Debug online from anywhere in world.
-
-*******************************************************************************/
-#include <stdio.h>
 #include <iostream>
 
 using namespace std;
 int main()
 {
-	int f, a;
+	int f = 1;
+	int e = 1;
 	do {
-		cout << "\nZADEJ FAKTORIAL: ";
+		cout << "\nZADEJ FAKTORIAL (0 pro KONEC): ";
 		cin >> f;
-		a = f;
+		cin >> e;
+		if (f < 0 || e < 0) {
+		    cout << ("\nNESMI BYT ZAPORNE");
+		    continue;
+		}else{
+		   for(int i = f - 1; i >= 2; i--){
+		        f *= i;
+		    }   
+		    cout << f;
+		    
+		    int fac2 = 1;
+		    for(int j = 2; j <= e; j++){
+		        fac2 *= j;
+		    }
+		    cout <<  endl << fac2;
+		}
+		
+	    /*int a = f;
 		while(f > 2) {
 			f = f - 1;
 			a = f * a;
-		}
-		cout << a;
-	} while (f != 0);
+		}*/
+		
+
+	} while (f != 0 && e != 0);
 	cout << "\n-----" << "\nKONEC";
 
 }
