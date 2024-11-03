@@ -1,29 +1,28 @@
 #include <iostream>
-#include <cmath>
-
 using namespace std;
-int main()
-{
-	int cislo;
 
-	while(true) {
-	    cin >> cislo;
-		if(cislo <= 0) {
-			cout << "neni prvocislo";
-			break;
-		}
-		bool jePrvocislo = true;
-		for (int i = 2; i <= sqrt(cislo); i++) {
-			if(cislo % i == 0) {
-                jePrvocislo = false;
-			}
-		}
-        if(jePrvocislo){
-            cout <<"je prvocislo";
-            continue;
-        }else{
-            cout << "neni prvocislo";
-            continue;
+bool jePrvocislo(int cislo) {
+    if (cislo <= 1) return false;
+    for (int i = 2; i * i <= cislo; i++) {  // Kontrola dělitelů do odmocniny z cislo
+        if (cislo % i == 0) return false;
+    }
+    return true;
+}
+
+int main() {
+    int dolni, horni;
+    cout << "Zadejte dolni mez intervalu: ";
+    cin >> dolni;
+    cout << "Zadejte horni mez intervalu: ";
+    cin >> horni;
+
+    cout << "Prvocisla v intervalu od " << dolni << " do " << horni << " jsou: ";
+    for (int i = dolni; i <= horni; i++) {
+        if (jePrvocislo(i)) {
+            cout << i << " ";
         }
-	}
+    }
+    cout << endl;
+
+    return 0;
 }
