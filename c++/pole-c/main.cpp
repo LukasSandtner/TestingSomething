@@ -97,4 +97,19 @@ int main()
 			cout << prvek << '\t';
 		}
 	}
+    int pole[] = {5, 8, 6, 14, 1, 18, 19, 7, 20}; 
+    int b, d, x;
+    int c = 4;
+    int min = 5;
+    int max = 17;
+    for(int i = 3; i < 9; i++){
+        if(pole[i] > min && pole[i] <= 18){
+            x = pole[i];
+            cout << x << "\t";
+        }
+        cout<< pole[i] << "\t";
+    } 
+    b = x; d = b; x = c;
+    d = d + 1;
+    cout << endl << x << endl << d;
 }
