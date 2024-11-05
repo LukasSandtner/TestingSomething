@@ -1,11 +1,3 @@
-/******************************************************************************
-
-Welcome to GDB Online.
-GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
-C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
-Code, Compile, Run and Debug online from anywhere in world.
-
-*******************************************************************************/
 #include <iostream>
 
 using namespace std;
@@ -16,15 +8,36 @@ int main()
         int counter = 0;
         cout << "\nPočet prvků (0 pro konec): ";
         cin >> length;
-        int c = 0;
         int a = 0;
         int b = 1;
         while(counter < length) {
-            c = a + b;
+            int c = a + b;
+            cout << "\t" << c;
             a = b;
             b = c;
             counter++;
-            cout << "\t" << b;
+            
+        }
+        
+        cout << endl;
+        int x = 0;
+        int y = 1;
+        for (int i = 0; i < length; i++) {
+            int z =  x  + y;
+            cout << "\t" << y;
+            x = y;
+            y = z;
+        }
+        
+        cout <<endl;
+        int pole[length];
+        pole[0] = 0;
+        pole[1] = 1;
+        for (int i = 2; i < length; i++) {
+            pole[i] = pole[i - 2] + pole[i - 1];
+        }
+        for(int prvek = length-1; prvek >= 0; prvek--){
+            cout << "\t" << pole[prvek];
         }
     } while (length != 0);
 }
