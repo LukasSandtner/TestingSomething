@@ -62,6 +62,20 @@ int main()
 		cout << A << " ";
 	}
 	cout << A;
+
+
+    int a = 7;
+    int minimum = 5;
+    int maximum = 21;
+    do{
+        a = a+ 7;
+        if(a > minimum && a < maximum){
+            continue;
+        }
+        
+    }while(a < 10);
+    cout << a;
+}
 }
 
 
