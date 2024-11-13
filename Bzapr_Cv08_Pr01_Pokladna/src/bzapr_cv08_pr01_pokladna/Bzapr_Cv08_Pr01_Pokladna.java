@@ -9,7 +9,7 @@ package bzapr_cv08_pr01_pokladna;
  * @author st75720
  */
 public class Bzapr_Cv08_Pr01_Pokladna {
-
+    //TODO 5 moznosti pro uzivatele, interaktivni menu v cyklu
     public static void main(String[] args) {
         Polozka produkt1 = new Polozka("Rohlik", 10, (float) 3.50, "Kc");
         Polozka produkt2 = new Polozka("Houska", 3, (float) 5.50, "Kc");
