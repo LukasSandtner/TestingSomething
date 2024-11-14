@@ -51,6 +51,7 @@ public class Pokladna {
                 case 5:
                     System.out.println("KONEC");
                     opakovani = false;
+                    break;
                 default:
                     System.out.println("Spatna hodnota, zkus znovu.");
             }
