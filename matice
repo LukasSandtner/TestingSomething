@@ -1,17 +1,15 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package bzapr_cv06_pr01_matice;
+package com.mycompany.matice;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 /**
  *
- * @author st75720
+ * @author Lukas
  */
-public class Bzapr_Cv06_Pr01_Matice {
+public class Matice {
 
     //TODO
     //Skalarni soucin matice
@@ -21,27 +19,55 @@ public class Bzapr_Cv06_Pr01_Matice {
     //Vynulovani prvku pod vedlejsi diagonalou
     //Usporadat radky matice podle hodnot ve sloupcich
     //Vektorovy soucin dvou matic (vypsat pomoci metody a konstruktoru)
-    
     public static void main(String[] args) {
         Scanner vstup = new Scanner(System.in);
-        System.out.println("Zadej pocet radku: ");
-        int pocetRadku = vstup.nextInt();
-        System.out.println("Zadej pocet sloupcu: ");
-        int pocetSloupcu = vstup.nextInt();
-        int[][] matice = new int[pocetRadku][pocetSloupcu];
-        int soucet = 0;
-        for (int y = 0; y < pocetRadku; y++) {
-            System.out.print("{");
-            for (int x = 0; x < pocetSloupcu; x++) {
-                matice[y][x] = (int) (Math.random()* 5) + 1;
-                System.out.print(" " + matice[y][x]);
-                soucet += matice[y][x];
+        while (true) {
+            System.out.println("Zadej pocet radku (0 pro konec): ");
+            int pocetRadkuA = vstup.nextInt();
+            if (pocetRadkuA == 0) {
+                System.out.println("KONEC");
+                break;
             }
-            System.out.println(" }");
-        }
-        System.out.println("Soucet:");
-        System.out.println(soucet);
+            System.out.println("Zadej pocet sloupcu: ");
+            int pocetSloupcuA = vstup.nextInt();
+            int[][] maticeA = new int[pocetRadkuA][pocetSloupcuA];
+            System.out.println("Matice A:");
+            for (int y = 0; y < pocetRadkuA; y++) {
+                System.out.print("{ ");
+                for (int x = 0; x < pocetSloupcuA; x++) {
+                    maticeA[y][x] = (int) (Math.random() * 10) + 4;
+                    System.out.printf("%02d ", maticeA[y][x]);
+                }
+                System.out.println("}");
+            }
 
+            System.out.println("Zadej pocet radku: ");
+            int pocetRadkuB = vstup.nextInt();
+            System.out.println("Zadej pocet sloupcu: ");
+            int pocetSloupcuB = vstup.nextInt();
+            int[][] maticeB = new int[pocetRadkuB][pocetSloupcuB];
+            System.out.println("Matice B:");
+            for (int y = 0; y < pocetRadkuB; y++) {
+                System.out.print("{");
+                for (int x = 0; x < pocetSloupcuB; x++) {
+                    maticeB[y][x] = (int) (Math.random() * 5) + 1;
+                    System.out.print(" " + maticeB[y][x]);
+                }
+                System.out.println(" }");
+            }
+
+            if (pocetRadkuA == pocetRadkuB && pocetSloupcuA == pocetSloupcuB) {
+                int skalarniSoucin = 0;
+                for (int i = 0; i < maticeA.length; i++) {
+                    for (int j = 0; j < maticeA[0].length; j++) {
+                        skalarniSoucin += maticeA[i][j] * maticeB[i][j];
+                    }
+                }
+                System.out.println("\nSkalarni soucin: " + skalarniSoucin);
+            } else {
+                System.out.println("Musi mit stejne rozmery!");
+            }
+        }
     }
 
 }
