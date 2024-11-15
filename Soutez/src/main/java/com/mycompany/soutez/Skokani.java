@@ -76,15 +76,15 @@ public class Skokani {
         if (pocetSkokanu == 0) {
             return null;
         }
-        Skokan nejlepsi = null;
-        
+        Skokan nejlepsi = skokani[0];
+
         for (Skokan skokan : skokani) {
             if (skokan != null
-                    && (nejlepsi == null || skokan.delkaNejdelsihoSkoku() > nejlepsi.delkaNejdelsihoSkoku())) {
+                    && (skokan.delkaNejdelsihoSkoku() > nejlepsi.delkaNejdelsihoSkoku())) {
                 nejlepsi = skokan;
             }
         }
-        return nejlepsi != null ? String.format("Nejlepsi skokan: %s", nejlepsi.getJmeno()) : null;
+        return String.format("Nejlepsi skokan: %s", nejlepsi.getJmeno());
     }
 
 }
