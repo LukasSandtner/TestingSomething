@@ -19,7 +19,7 @@ public class Matice {
     
     public int[][] soucinMatic(){
         int[][] maticeC = new int[maticeA.length][maticeB[0].length];
-        if(maticeA.length == maticeB[0].length){
+        if(maticeA[0].length == maticeB.length){
             for (int i = 0; i < maticeA.length; i++) {
                 for (int j = 0; j < maticeB[0].length; j++) {
                     for (int k = 0; k < maticeA[0].length; k++) {
