@@ -12,20 +12,20 @@ import com.mycompany.soutez.Skokan;
  */
 public class Skokani {
 
-    private Skokan[] skokani;
-    private int pocetSkokanu;
+    private final Skokan[] skokani;
+    private int aktPocetSkokanu;
 
     public Skokani(int maxSkokanu) {
         this.skokani = new Skokan[maxSkokanu];
-        this.pocetSkokanu = 0;
+        this.aktPocetSkokanu = 0;
     }
 
     public void pridejSkokana(Skokan skokan) {
-        if (pocetSkokanu >= skokani.length) {
+        if (aktPocetSkokanu >= skokani.length) {
             System.out.println("Nelze pridat dalsi skokany");
         } else {
-            skokani[pocetSkokanu] = skokan;
-            pocetSkokanu++;
+            skokani[aktPocetSkokanu] = skokan;
+            aktPocetSkokanu++;
             System.out.println("Skokan pridan");
         }
     }
@@ -33,11 +33,11 @@ public class Skokani {
     public void OdeberSkokana(String jmeno) {
         for (int i = 0; i < skokani.length; i++) {
             if (skokani[i] != null && skokani[i].getJmeno().equals(jmeno)) {
-                for (int j = i; j < skokani.length - 1; j++) {
+                for (int j = i; j < aktPocetSkokanu; j++) {
                     skokani[j] = skokani[j + 1];
                 }
-                skokani[pocetSkokanu - 1] = null;
-                pocetSkokanu--;
+                skokani[aktPocetSkokanu - 1] = null;
+                aktPocetSkokanu--;
                 System.out.println("Skokan odebran");
             }
         }
@@ -72,8 +72,20 @@ public class Skokani {
         return (double) soucetSkoku / pocetSkoku;
     }
 
+    public float prumerSkokana(String jmeno) {
+        int suma = 0;
+        for (int i = 0; i < skokani.length; i++) {
+            if((skokani[i] != null) && (skokani[i].getJmeno().equals(jmeno))){
+                suma = skokani[i].getPrvniSkok() 
+                       + skokani[i].getDruhySkok()
+                       + skokani[i].getTretiSkok();
+            }            
+        }
+        return (float) suma / 3;
+    }
+
     public String nejlepsiSkokan() {
-        if (pocetSkokanu == 0) {
+        if (aktPocetSkokanu == 0) {
             return null;
         }
         Skokan nejlepsi = skokani[0];
