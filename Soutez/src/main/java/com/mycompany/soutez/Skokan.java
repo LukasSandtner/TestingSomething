@@ -42,6 +42,10 @@ public class Skokan {
     public int delkaNejdelsihoSkoku() {
         return Math.max(prvniSkok, Math.max(druhySkok, tretiSkok));
     }
+    
+    public float prumerSkokana() {
+        return (float) (getPrvniSkok() + getDruhySkok() + getTretiSkok()) / 3;
+    }
 
     @Override
     public String toString() {
@@ -49,6 +53,7 @@ public class Skokan {
                 + prvniSkok + " cm, 2. skok: "
                 + druhySkok + " cm, 3. skok: "
                 + tretiSkok + " cm, Nejdelsi skok: "
-                + delkaNejdelsihoSkoku() + " cm";
+                + delkaNejdelsihoSkoku() + " cm,"
+                + " Prumer skokana: " + String.format("%.2f", prumerSkokana());
     }
 }
