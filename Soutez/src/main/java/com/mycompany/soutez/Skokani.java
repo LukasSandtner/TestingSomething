@@ -74,8 +74,8 @@ public class Skokani {
 
     public float prumerSkokana(String jmeno) {
         int suma = 0;
-        for (int i = 0; i < skokani.length; i++) {
-            if((skokani[i] != null) && (skokani[i].getJmeno().equals(jmeno))){
+        for (int i = 0; i < aktPocetSkokanu; i++) {
+            if((skokani[i].getJmeno().equals(jmeno))){
                 suma = skokani[i].getPrvniSkok() 
                        + skokani[i].getDruhySkok()
                        + skokani[i].getTretiSkok();
