@@ -17,7 +17,7 @@ public class Soutez {
 //        Skokan skokan3 = new Skokan("Ozak", 750, 250, 350);
         Skokani soutez = new Skokani(10);
 //
-//        soutez.pridejSkokana(skokan1);
+//       soutez.pridejSkokana(skokan1);
 //        soutez.pridejSkokana(skokan2);
 //        soutez.pridejSkokana(skokan3);
 //
@@ -39,7 +39,8 @@ public class Soutez {
                     + "\n 3. pro odebrani skokana"
                     + "\n 4. pro nejlepsiho skokana"
                     + "\n 5. pro prumerny skok"
-                    + "\n 6. pro konec");
+                    + "\n 6. pro prumer jednotivce"
+                    + "\n 7. pro konec");
             int vstup = scan.nextInt();
             switch (vstup) {
                 case 1:
@@ -59,6 +60,9 @@ public class Soutez {
                     System.out.println("Prumerny skok: " + prumer);
                     break;
                 case 6:
+                    prumerJednotlivehoSkokana(scan, soutez);
+                    break;
+                case 7:
                     System.out.println("Konec");
                     pravda = false;
                     break;
@@ -66,6 +70,13 @@ public class Soutez {
                     System.out.println("Spatna hodnota, zkus to znovu!");
             }
         }
+    }
+
+    private static void prumerJednotlivehoSkokana(Scanner scan, Skokani soutez) {
+        System.out.println("Zadej jmeno: ");
+        String jmenoJednotlivce = scan.next();
+        float prumerJednotlivce = soutez.prumerSkokana(jmenoJednotlivce);
+        System.out.printf("Prumer skokana: %.2f", prumerJednotlivce);
     }
 
     private static void pridaniSkokana(Scanner scan, Skokani soutez) {
