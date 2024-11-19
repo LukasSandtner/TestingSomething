@@ -12,44 +12,46 @@ import java.util.Random;
  */
 public class Matice {
 
-    private int[][] matice;
+    private final int[][] matice;
 
-    private Random random = new Random();
+    private final Random random = new Random();
 
+    private final int hraniceIntervalu; 
+            
     public Matice(int rozmerMatice, int hraniceIntervalu) {
-        matice = new int[rozmerMatice][rozmerMatice];
-
-        for (int i = 0; i < rozmerMatice; i++) {
-            for (int j = 0; j < rozmerMatice; j++) {
-                matice[i][j] = random.nextInt(-hraniceIntervalu, hraniceIntervalu);
+        this.matice = new int[rozmerMatice][rozmerMatice];
+        this.hraniceIntervalu = hraniceIntervalu;
+    }
+    
+    public void napln(){
+        for (int i = 0; i < matice.length; i++) {
+            for (int j = 0; j < matice[0].length; j++) {
+                matice[i][j] = random.nextInt(-hraniceIntervalu, hraniceIntervalu + 1);
             }
         }
-
     }
-
+        
     public void vypis() {
 
         for (int i = 0; i < matice.length; i++) {
             System.out.print("| ");
             for (int j = 0; j < matice[0].length; j++) {
-                System.out.print(matice[i][j] + " ");
+                System.out.printf("%03d ", matice[i][j]);
             }
-            System.out.println(" |");
+            System.out.println("|");
         }
     }
 
     public int maximumNadHD() {
         int maxNadHD = Integer.MIN_VALUE;
-        int radekP = 1;
 
-        for (int i = 0; i < matice.length; i++) {
-            for (int j = i + radekP; j < matice[0].length; j++) {
+        for (int i = 0; i < matice.length - 1; i++) {
+            for (int j = i + 1; j < matice[0].length; j++) {
                 if (matice[i][j] > maxNadHD) {
                     maxNadHD = matice[i][j];
                 }
 
             }
-            radekP++;
         }
 
         if (maxNadHD == 0) {
