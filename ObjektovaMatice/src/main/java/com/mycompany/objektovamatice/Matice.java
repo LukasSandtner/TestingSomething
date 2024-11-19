@@ -23,7 +23,7 @@ public class Matice {
             for (int i = 0; i < maticeA.length; i++) {
                 for (int j = 0; j < maticeB[0].length; j++) {
                     for (int k = 0; k < maticeA[0].length; k++) {
-                        maticeC[i][j] += maticeA[i][k] * maticeB[k][i];
+                        maticeC[i][j] += maticeA[i][k] * maticeB[k][j];
                     }
                 }
             }
