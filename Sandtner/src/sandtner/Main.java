@@ -19,7 +19,7 @@ public class Main {
         Scanner vstup = new Scanner(System.in);
         
         while (true) {
-            System.out.println("Zadej rozmer ctvercove matice: ");
+            System.out.println("Zadej hodnotu z intervalu <1,10>: ");
             int rozmer = vstup.nextInt();
             if (rozmer >= 1 && rozmer <= 10) {
                 Matice matrix = new Matice(rozmer, 10);
