@@ -45,7 +45,9 @@ int main()
     
     while(zacatek <= count - 1){
         int median = zacatek + (count - zacatek) / 2;
-        
+        if(zacatek < 0){
+					cout << "Prvek nenalezen";
+												}
         if(pole[median] == x){
             cout << x << " je na " << median + 1 << ". umisteni";
             break;
