@@ -1,0 +1,65 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+   /*** FIFO simulator ***/
+ 
+   int buffer[5];
+   int count=0;
+   int in, out;
+
+   cout << "help:" << endl;;
+   cout << "-99 odebere položku z fronty" << endl; 
+   cout << "-999 ukončí program" << endl; 
+   cout << "libovolné číslo kromě dvou předchozích bude přidáno do fronty" << endl; 
+   cout << endl;
+ 
+   do {
+	   cout << "zadej číslo: ";
+	   cin >> in;
+	
+	   // odebere poslední hodnotu v bufferu
+	   if (in == -99) {
+         if(count > 0) {
+	        cout << "odebráno: " << buffer[count-1] << endl;
+	        count--;
+            buffer[count] = 0; // jen pro lepsi citelnost obsahu bufferu
+         } else {
+	        cout << "buffer je prázdný (podtečení)" << endl;
+         }
+
+	     continue;
+	   }
+	
+	  if (count == 5) {
+	      out = buffer[4];
+	      cout << "preteceni (ouverflow): " << out << endl; 
+	      // pokud nestačíme odebírat
+	   }
+	
+	   if (count > 0) {
+	   // posun
+	   /** v reálu se takto neřeší -- moc pomalé **/
+	      for(int i=count; i>0; i--) {
+	         buffer[i] = buffer[i-1];
+	      }
+	   }
+	   
+	   buffer[0] = in;  // prida novou hodnotu do fronty
+	   
+	   /* vytiskne obsah bufferu */
+	   cout << "obsah bufferu: ";
+	   for(int p: buffer) {
+	       cout << p << " ";
+	   }; cout << endl;
+       /* *************** */
+	   
+	   if(count<5) {
+	     count++;
+	   }
+   } while(in != -999);  
+
+
+    return 0;
+}
