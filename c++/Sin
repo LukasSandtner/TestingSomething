@@ -3,23 +3,45 @@
 using namespace std;
 
 int main() {
-    double x = 3.1415/6;  // Úhel v radiánech
-    double sin_x = x; // Začínáme s prvním členem (x)
-    double X = x;    // Proměnná pro mocniny
-    int sign = -1;   // Střídání znamének (-1 pro záporné, 1 pro kladné)
 
-    // Výpočet Taylorova rozvoje
-    for (int i = 1; i < 10; i++) { // Začínáme od 1, protože první člen už je přidán
-        X *= x * x; // Zvyšujeme mocninu x (x^(2n+1))
-        long int F = 1; // Výpočet faktoriálu
-
-        for (int f = 3; f <= 2 * i + 1; f += 2) { // Faktoriál pro liché členy
-            F *= f * (f - 1);
+    while(true) {
+        cout << "Zadej v citatel (rad): ";
+        double a;  
+        cin >> a;
+        
+        cout << "Zadej v jmenovatel (rad): ";
+        double b;  
+        cin >> b;
+        
+        if(b == 0) {
+            cout << "Deleni nulou!" << endl;
+            continue;
         }
+        
+        double x = a / b;
+        
+        if(x == 0) {
+            cout << "konec";
+            break;
+        }
+        
+        double sin_x = x; // Začínáme s prvním členem (x)
+        double X = x;    // Proměnná pro mocniny
+        int sign = -1;   // Střídání znamének (-1 pro záporné, 1 pro kladné)
 
-        double term = X / F; // Aktuální člen Taylorova rozvoje
-        sin_x += sign * term; // Přičteme člen se znaménkem
-        sign *= -1; // Změníme znaménko
+        // Výpočet Taylorova rozvoje
+        for (int i = 1; i < 10; i++) { // Začínáme od 1, protože první člen už je přidán
+            X *= x * x; // Zvyšujeme mocninu x (x^(2n+1))
+            long int F = 1; // Výpočet faktoriálu
+
+            for (int f = 3; f <= 2 * i + 1; f += 2) { // Faktoriál pro liché členy
+                F *= f * (f - 1);
+            }
+
+            double term = X / F; // Aktuální člen Taylorova rozvoje
+            sin_x += sign * term; // Přičteme člen se znaménkem
+            sign *= -1; // Změníme znaménko
+        }
+        cout << endl << "Sinus (" << x << ") = " << sin_x << endl;
     }
-    cout << "Sinus (" << x << ") = " << sin_x << endl;
 }
