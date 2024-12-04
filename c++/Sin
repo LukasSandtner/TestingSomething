@@ -2,46 +2,39 @@
 
 using namespace std;
 
+int fac(int i)
+{
+    int F = 1;
+    for (int f = 2; f <= 2 * i + 1; f ++) {
+		F *= f;
+	}
+	return F;
+}
+
+double sinus(int x)
+{
+	double sin_x = x;
+	double X = x;
+	int sign = -1;
+
+	for (int i = 1; i < 15; i++) {
+		X *= x * x;
+		long int f = 1;
+        int F = fac(i);
+		double term = X / F;
+		sin_x += sign * term;
+		sign *= -1;
+	}
+	return sin_x;
+}
+
 int main() {
 
-    while(true) {
-        cout << "Zadej v citatel (rad): ";
-        double a;  
-        cin >> a;
-        
-        cout << "Zadej v jmenovatel (rad): ";
-        double b;  
-        cin >> b;
-        
-        if(b == 0) {
-            cout << "Deleni nulou!" << endl;
-            continue;
-        }
-        
-        double x = a / b;
-        
-        if(x == 0) {
-            cout << "konec";
-            break;
-        }
-        
-        double sin_x = x; // Začínáme s prvním členem (x)
-        double X = x;    // Proměnná pro mocniny
-        int sign = -1;   // Střídání znamének (-1 pro záporné, 1 pro kladné)
+	double deg, x;
+	cout << "Zadej stupne: ";
+	cin >> deg;
+	x = 3.1415 / 180 * deg;
+    double sin_x = sinus(x);
 
-        // Výpočet Taylorova rozvoje
-        for (int i = 1; i < 10; i++) { // Začínáme od 1, protože první člen už je přidán
-            X *= x * x; // Zvyšujeme mocninu x (x^(2n+1))
-            long int F = 1; // Výpočet faktoriálu
-
-            for (int f = 3; f <= 2 * i + 1; f += 2) { // Faktoriál pro liché členy
-                F *= f * (f - 1);
-            }
-
-            double term = X / F; // Aktuální člen Taylorova rozvoje
-            sin_x += sign * term; // Přičteme člen se znaménkem
-            sign *= -1; // Změníme znaménko
-        }
-        cout << endl << "Sinus (" << x << ") = " << sin_x << endl;
-    }
+	cout << endl << "Sinus (" << x << ") = " << sin_x << endl;
 }
