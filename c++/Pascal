@@ -1,22 +1,45 @@
-/******************************************************************************
-
-Welcome to GDB Online.
-GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
-C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
-Code, Compile, Run and Debug online from anywhere in world.
-
-*******************************************************************************/
 #include <iostream>
-
 using namespace std;
-int main()
-{
-    int arr[10][10];
-    arr[0][0] = 1;
-    arr[1][0] = 1;
-    arr[1][1] = 1;
-    
-    for (int i = 1; i <= 10; i++) {
-        
+
+void vypisTrojuhlenik(int trojuhelnik[][10], int radky) {
+    for (int i = 0; i < radky; i++) {
+        // Vytiskni mezery pro zarovnání
+        for (int j = 0; j < radky - i - 1; j++) {
+            cout << "  ";
+        }
+        // Vytiskni hodnoty trojúhelníku
+        for (int j = 0; j <= i; j++) {
+            cout << trojuhelnik[i][j] << "   ";
+        }
+        cout << endl;
     }
+}
+
+int main() {
+    const int MAX = 10; // Maximální počet řádků
+    int trojuhelnik[MAX][MAX] = {0}; // Dvourozměrné pole inicializované na 0
+
+    int radky;
+    cout << "Zadejte pocet radku Pascalova trojuhelniku (max " << MAX << "): ";
+    cin >> radky;
+
+    if (radky > MAX || radky < 1) {
+        cout << "Neplatny pocet radku!" << endl;
+        return 1;
+    }
+
+    // Vygenerování Pascalova trojúhelníku
+    for (int i = 0; i < radky; i++) {
+        trojuhelnik[i][0] = 1; // První prvek každého řádku je 1
+        trojuhelnik[i][i] = 1; // Poslední prvek každého řádku je 1
+
+        for (int j = 1; j < i; j++) {
+            trojuhelnik[i][j] = trojuhelnik[i - 1][j - 1] + trojuhelnik[i - 1][j];
+        }
+    }
+
+    // Výpis trojúhelníku
+    vypisTrojuhlenik(trojuhelnik, radky);
+
+    return 0;
 }
