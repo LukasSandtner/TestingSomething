@@ -1,0 +1,78 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
+C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <iostream>
+
+int main()
+{
+   /*** LIFO simulátor ***/
+ 
+   int stack[5];
+   int count=0;
+   int in, out;
+ 
+   cout << "help:" << endl;;
+   cout << "-99 odebere položku ze zásobníku" << endl; 
+   cout << "-999 ukončí program" << endl; 
+   cout << "libovolné číslo kromě dvou předchozích bude přidáno do fronty" << endl; 
+   cout << endl;
+
+   do {
+	   cout << "zadej číslo: ";
+	   cin >> in;
+	
+	   // přidáno odebírání 
+	   if (in == -99) {
+
+         if (count > 0) {
+	     cout << "odebráno: " << stack[0] << endl;
+
+         // posun
+         /** v reálu se takto neřeší -- moc pomalé **/
+            for(int i=1; i<=count; i++) {
+               stack[i-1] = stack[i];
+               stack[i] = 0; // není nutné nulovat (jen pro lepší čitelnost stacku)
+            }
+            count--;
+         } else {
+	        cout << "stack je prázdný (podtečení)" << endl;
+         }
+
+         continue;
+	   }
+
+
+	  if (count == 5) {
+	      out = stack[4];
+	      cout << "preteceni (ouverflow): " << out << endl; 
+	      // pokud nestačíme odebírat
+	   }
+	
+	   if (count > 0) {
+	   // posun
+	   /** v reálu se takto neřeší -- moc pomalé **/
+	      for(int i=count; i>0; i--) {
+	         stack[i] = stack[i-1];
+	      }
+	   }
+	   
+	   stack[0] = in;
+	   
+	   /* ladící cyklus vytiskne obsah stacku */
+	   cout << "obsah stacku: ";
+	   for(int p: stack) {
+	       cout << p << " ";
+	   }; cout << endl;
+       /* ********************** */
+	   
+	   if(count<5) {
+	     count++;
+	   }
+   } while(in != -999); 
+
+} 
