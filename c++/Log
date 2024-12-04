@@ -1,0 +1,28 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    double x = 0.5;  // Vstupní hodnota pro logaritmus (pro ln(1 + x))
+    if (x <= -1) {
+        cout << "Hodnota x musí být větší než -1 pro Taylorův rozvoj logaritmu." << endl;
+        return 1;
+    }
+
+    double ln_x = 0.0;  // Výsledek logaritmu
+    double term = x;    // První člen Taylorovy řady
+    int sign = 1;       // Znaménko (střídá se kladné a záporné)
+
+    for (int i = 1; i <= 10; i++) { // Přidáme 10 členů Taylorovy řady
+        ln_x += sign * term / i;   // Přidání členu řady
+        term *= x;                 // Příprava další mocniny
+        sign *= -1;                // Změna znaménka
+    }
+
+    cout << "Přibližná hodnota ln(1 + " << x << ") = " << ln_x << endl;
+
+    // Porovnání s knihovní funkcí
+    cout << "Hodnota podle math.h: ln(1 + " << x << ") = " << log(1 + x) << endl;
+
+    return 0;
+}
