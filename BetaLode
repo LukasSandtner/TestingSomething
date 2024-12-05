@@ -81,7 +81,10 @@ public class Lode {
     }
     
     private static void vypisPole(char[][] hraciPole) {
+        int i = 0;
         for (char[] radek : hraciPole) {
+            i++;
+            System.out.printf("Radek %d: ", i);
             for (char prvek : radek) {
                 System.out.print(prvek + " ");
             }
