@@ -1,0 +1,45 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int arr[] = {3, 7, 10, 11, 15, 20, 30, 48, 99,
+                 102, 105, 108, 120, 130, 133, 141, 150};
+    int a = 0;
+    int b = sizeof(arr) / sizeof(arr[0]); // Velikost pole
+    int x;
+
+    cout << "Zadej cislo: ";
+    cin >> x;
+
+    /** Puleni intervalu **/
+    while (a <= b)
+    {
+        int mid = a + (b - a) / 2; // Výpočet prostředního indexu
+
+        // Pokud je hledané číslo na prostředním indexu
+        if (x == arr[mid])
+        {
+            cout << "Cislo " << x << " je na pozici " << mid + 1 << "." << endl;
+            return 0;
+        }
+
+        // Puleni intervalu
+        if (x < arr[mid])
+        {
+            cout << "<" << " "; // Puleni smerem doleva
+            b = mid - 1;
+        }
+        else
+        {
+            cout << ">" << " "; // Puleni smerem doprava
+            a = mid + 1;
+        }
+    }
+
+    /** Pokud nenajdeme hodnotu **/
+    cout << endl;
+    cout << "Cislo " << x << " se v poli nenachazi." << endl;
+
+    return 0;
+}
