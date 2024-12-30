@@ -1,0 +1,3 @@
+Nadprumerni: 
+Svoboda; 90; 140;
+Kral; 90; 125;
