@@ -15,7 +15,7 @@ public class Zavodnici {
 //        zaznamy.pridejZaznam(new ZavodnikZaznam("Novak", 120, 130));
 //        zaznamy.pridejZaznam(new ZavodnikZaznam("Svoboda", 115, 140));
         try {
-            zaznamy.pridejZaznam(new ZavodnikZaznam("nigga", 110, 100));
+            zaznamy.pridejZaznam(new ZavodnikZaznam("Novacek", 110, 100));
         } catch (InvalidZaznamException e) {
             System.err.println("Chyba pri nacteni zaznamu: " + e.getMessage());
         }
