@@ -27,6 +27,18 @@ public class Zaznamy {
             System.out.println("Pole je plne!");
         }
     }
+    
+    public void odeberZaznam(String jmeno){
+        for (int i = 0; i < pocet; i++) {
+            if(zaznamy[i].getJmeno().equals(jmeno)){
+                for (int j = i; j < pocet; j++) {
+                    zaznamy[j] = zaznamy[j + 1];
+                    pocet--;
+                }
+            }
+            
+        }
+    }
 
     public void vypisZaznamu() {
         for (ZavodnikZaznam zavodnik : zaznamy) {
@@ -37,7 +49,7 @@ public class Zaznamy {
     }
 
     public double prumernyCas() {
-        int sum = 0;
+        double sum = 0.0;
         for (int i = 0; i < pocet; i++) {
             sum += zaznamy[i].dejLepsiCas();
         }
@@ -72,6 +84,7 @@ public class Zaznamy {
                     }
                 }
             }
+            br.close();
         } catch (IOException e) {
             System.out.println("Chyba pri cteni souboru: " + e.getMessage());
         }
