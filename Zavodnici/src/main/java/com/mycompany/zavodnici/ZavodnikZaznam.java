@@ -50,7 +50,7 @@ public class ZavodnikZaznam {
     }
     
     public int dejLepsiCas() {
-        return Math.min(prvniSkok, prvniSkok);
+        return Math.min(prvniSkok, druhySkok);
     }
 
     @Override
