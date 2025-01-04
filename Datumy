@@ -1,0 +1,125 @@
+package com.mycompany.datumy;
+
+import java.time.LocalDate;
+import java.time.DayOfWeek;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class Datumy {
+
+    public static void main(String[] args) {
+        // Inicializace simulace s aktuálním datem
+        SimulaceDnu simulator = new SimulaceDnu(LocalDate.now());
+
+        // Přidání posluchačů
+        simulator.pridejPosluchace(new VypsaniDatumuPosluchac()); // Zobrazuje aktuální datum
+        simulator.pridejPosluchace(new PracovniDenPosluchac());   // Kontroluje pracovní dny a víkendy
+        
+        // Nastavení deadlinu
+        LocalDate deadline = LocalDate.now().plusDays(10); // Deadline za 10 dní
+        simulator.pridejPosluchace(new PocetDniDoDeadlinuPosluchac(deadline)); // Zobrazuje dny do deadlinu
+        simulator.pridejPosluchace(new UpozorneniNaBliziciSeDeadlinePosluchac(deadline)); // Upozornění na blížící se deadline
+
+        // Simulace 16 dnů
+        for (int i = 0; i < 16; i++) {
+            simulator.skokDenDopredu(); // Posun o den
+            try {
+                System.out.println("-----");
+                Thread.sleep(1000); // Pauza 1 sekunda
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Datumy.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+}
+
+// ===== Posluchači =====
+
+// Posluchač, který vypíše aktuální datum
+class VypsaniDatumuPosluchac implements Posluchac {
+    @Override
+    public void aktualizace(LocalDate datum) {
+        System.out.println("Dnešní datum: " + datum);
+    }
+}
+
+// 1. Posluchač pro pracovní dny a víkendy
+class PracovniDenPosluchac implements Posluchac {
+    @Override
+    public void aktualizace(LocalDate datum) {
+        DayOfWeek day = datum.getDayOfWeek();
+        if (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY) {
+            System.out.println(datum + " je víkend.");
+        } else {
+            System.out.println(datum + " je pracovní den.");
+        }
+    }
+}
+
+// 2. Posluchač pro počet dnů do deadlinu
+class PocetDniDoDeadlinuPosluchac implements Posluchac {
+    private LocalDate deadline;
+
+    public PocetDniDoDeadlinuPosluchac(LocalDate deadline) {
+        this.deadline = deadline;
+    }
+
+    @Override
+    public void aktualizace(LocalDate datum) {
+        long dnyDoDeadlinu = ChronoUnit.DAYS.between(datum, deadline);
+        if (dnyDoDeadlinu >= 0) {
+            System.out.println("Do deadlinu zbývá: " + dnyDoDeadlinu + " dní.");
+        } else {
+            System.out.println("Deadline byl překročen o " + Math.abs(dnyDoDeadlinu) + " dní!");
+        }
+    }
+}
+
+// 3. Bonus – Upozornění na blížící se deadline
+class UpozorneniNaBliziciSeDeadlinePosluchac implements Posluchac {
+    private LocalDate deadline;
+
+    public UpozorneniNaBliziciSeDeadlinePosluchac(LocalDate deadline) {
+        this.deadline = deadline;
+    }
+
+    @Override
+    public void aktualizace(LocalDate datum) {
+        long dnyDoDeadlinu = ChronoUnit.DAYS.between(datum, deadline);
+
+        if (dnyDoDeadlinu > 0 && dnyDoDeadlinu <= 7) {
+            System.out.println("Pozor! Zbývá méně než týden do deadlinu (" + dnyDoDeadlinu + " dní)!");
+        } else if (dnyDoDeadlinu < 0) {
+            System.out.println("Deadline byl překročen!");
+        }
+    }
+}
+
+// ===== Rozhraní pro posluchače =====
+interface Posluchac {
+    void aktualizace(LocalDate datum);
+}
+
+// ===== Simulace dnů =====
+class SimulaceDnu {
+    private LocalDate aktualniDatum;
+    private List<Posluchac> posluchaci = new ArrayList<>();
+
+    public SimulaceDnu(LocalDate pocatecniDatum) {
+        this.aktualniDatum = pocatecniDatum;
+    }
+
+    public void pridejPosluchace(Posluchac posluchac) {
+        posluchaci.add(posluchac);
+    }
+
+    public void skokDenDopredu() {
+        aktualniDatum = aktualniDatum.plusDays(1);
+        for (Posluchac posluchac : posluchaci) {
+            posluchac.aktualizace(aktualniDatum);
+        }
+    }
+}
