@@ -1,0 +1,5 @@
+Jihlavanka;150;200;
+Nescafe;;500;800;
+Clever;300;200;
+Swiss;450; 3500,50
+Kenya;400; 3000,50
