@@ -12,7 +12,7 @@ public class Predzapocet {
 
     public static void main(String[] args) {
         Skokani skokani = new Skokani(100); // Maximální kapacita pole
-        skokani.nactiZeSouboru("C:\\Users\\Lukas\\Documents\\NetBeansProjects\\TestingSomething\\Predzapocet\\src\\main\\java\\com\\mycompany\\predzapocet\\pokusy.txt");
+        skokani.nactiZeSouboru("pokusy.txt");
 
         System.out.println("Všichni skokani:");
         skokani.vypisSkokany();
