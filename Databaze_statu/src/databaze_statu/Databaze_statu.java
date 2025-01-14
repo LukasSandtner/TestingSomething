@@ -17,7 +17,7 @@ public class Databaze_statu {
         // TODO code application logic here
         Stat stat1 = new Stat("Polsko", "Varsava", 37950000, 312600);
         Stat stat2 = new Stat("Nemecko", "Berlin", 537950000, 312600);
-        Stat stat3 = new Stat("Slovenistan", "Osada", 1000, 10);
+        Stat stat3 = new Stat("Slovensko", "Osada", 1000, 10);
         Staty poleStatu = new Staty(stat2);
         
         System.out.println("Seznam Satatu");
