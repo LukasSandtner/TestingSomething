@@ -20,8 +20,8 @@ public class Zavodnici {
             System.err.println("Chyba pri nacteni zaznamu: " + e.getMessage());
         }
         try {
-            zaznamy.ctiZaznamy("C:\\Users\\Lukas\\Documents\\NetBeansProjects\\TestingSomething\\Zavodnici\\src\\main\\java\\com\\mycompany\\zavodnici\\cteni.csv");
-            zaznamy.zapisNadprumer("C:\\Users\\Lukas\\Documents\\NetBeansProjects\\TestingSomething\\Zavodnici\\src\\main\\java\\com\\mycompany\\zavodnici\\zapis.txt");
+            zaznamy.ctiZaznamy("cteni.csv");
+            zaznamy.zapisNadprumer("zapis.txt");
         } catch (IOException e) {
             System.err.println("Chyba pri nacteni souboru " + e.getMessage());
         }
