@@ -1,0 +1,54 @@
+#include <iostream>
+using namespace std;
+
+void vypis( int pole[], int &index) {
+
+	while((index % 4) != 0) {
+		index++;
+	}
+	for (int i = index - 1; i >= 0 ; i--) {
+
+		cout << pole[i];
+		
+		if(i % 4 == 0) {
+			cout << " ";
+		}
+	}
+}
+
+void prevod(int &cislo) {
+	int pole[32] = {0};
+	int index = 0;
+
+	if(cislo == 0) {
+		cout << 0;
+	}
+
+	while(cislo > 0) {
+		pole[index++] = cislo % 2;
+		cislo /= 2;
+	}
+
+	vypis(pole, index);
+}
+
+
+
+int main()
+{
+	while(true) {
+		int cislo;
+		cout << "\nZadejte prirozene cislo (zaporne cislo pro KONEC): ";
+		cin >> cislo;
+
+
+		if(cislo < 0) {
+			cout << "Konec";
+			break;
+		} else {
+			cout << "Cislo " << cislo << " po prevodu je -> ";
+			prevod(cislo);
+		}
+	}
+	return 0;
+}
