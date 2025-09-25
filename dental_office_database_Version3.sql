@@ -275,18 +275,3 @@ CREATE INDEX idx_zakroky_datum ON zakroky(datum_zakroku);
 CREATE INDEX idx_rezervace_datum ON rezervace(datum_rezervace);
 CREATE INDEX idx_komunikace_datum ON komunikace(datum_komunikace);
 CREATE INDEX idx_stav_chrupu_pacient_zub ON stav_chrupu(id_pacienta, cislo_zubu);
-
--- Vložení základních dat
-INSERT INTO typy_komunikace (nazev, popis) VALUES 
-('Email', 'Elektronická pošta'),
-('Telefon', 'Telefonická komunikace'),
-('SMS', 'Textová zpráva'),
-('Osobně', 'Osobní komunikace v ordinaci'),
-('Pošta', 'Listovní zásilka');
-
-INSERT INTO kategorie_zasob (nazev, popis) VALUES 
-('Nástroje', 'Zubařské nástroje a příslušenství'),
-('Materiály', 'Výplňové a jiné materiály'),
-('Léky', 'Léčiva a anestetika'),
-('Ochranné pomůcky', 'Rukavice, roušky, dezinfekce'),
-('Kancelářské potřeby', 'Papír, tiskopisy, kancelářské potřeby');
