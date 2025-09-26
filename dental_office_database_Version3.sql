@@ -1,277 +1,180 @@
--- Informační systém ordinace zubního lékaře
--- Databáze s českými názvy proměnných a entit
+-- Vytvoření databáze
+CREATE DATABASE IF NOT EXISTS ZubniOrdinace;
+USE ZubniOrdinace;
 
--- 1. Pacienti
-CREATE TABLE pacienti (
-    id_pacienta INT PRIMARY KEY AUTO_INCREMENT,
+-- Tabulka Pacient - informace o pacientech
+CREATE TABLE Pacient (
+    id_pacient INT PRIMARY KEY AUTO_INCREMENT,
     jmeno VARCHAR(50) NOT NULL,
     prijmeni VARCHAR(50) NOT NULL,
     datum_narozeni DATE NOT NULL,
-    rodne_cislo VARCHAR(11) UNIQUE,
-    adresa VARCHAR(200),
-    telefon VARCHAR(20),
+    rodne_cislo VARCHAR(11) NOT NULL UNIQUE,
+    telefon VARCHAR(15) NOT NULL,
     email VARCHAR(100),
-    pojistovna VARCHAR(100),
-    cislo_pojistence VARCHAR(20),
-    datum_registrace DATE DEFAULT CURRENT_DATE,
-    aktivni BOOLEAN DEFAULT TRUE,
-    poznamky TEXT
+    adresa VARCHAR(200) NOT NULL,
+    pojistovna VARCHAR(50) NOT NULL,
+    datum_registrace DATE NOT NULL
 );
 
--- 2. Lékaři
-CREATE TABLE lekari (
-    id_lekare INT PRIMARY KEY AUTO_INCREMENT,
+-- Tabulka Zamestnanec - zaměstnanci ordinace
+CREATE TABLE Zamestnanec (
+    id_zamestnanec INT PRIMARY KEY AUTO_INCREMENT,
     jmeno VARCHAR(50) NOT NULL,
     prijmeni VARCHAR(50) NOT NULL,
-    titul VARCHAR(20),
-    specializace VARCHAR(100),
-    telefon VARCHAR(20),
-    email VARCHAR(100),
-    cislo_licence VARCHAR(50) UNIQUE,
-    datum_nastupu DATE,
-    aktivni BOOLEAN DEFAULT TRUE
+    telefon VARCHAR(15) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    pozice VARCHAR(50) NOT NULL,  -- lékař, sestra, recepční
+    datum_nastupu DATE NOT NULL
 );
 
--- 3. Zdravotní karty
-CREATE TABLE zdravotni_karty (
-    id_karty INT PRIMARY KEY AUTO_INCREMENT,
-    id_pacienta INT NOT NULL,
-    datum_vytvoreni DATE DEFAULT CURRENT_DATE,
-    anamneza TEXT,
-    alergie TEXT,
-    chronicky_onemocneni TEXT,
-    uzivane_leky TEXT,
-    posledni_aktualizace TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_pacienta) REFERENCES pacienti(id_pacienta)
-);
-
--- 4. Typy zákroků
-CREATE TABLE typy_zakroku (
-    id_typu INT PRIMARY KEY AUTO_INCREMENT,
+-- Tabulka Zákrok - typy zubních zákroků
+CREATE TABLE Zakrok (
+    id_zakrok INT PRIMARY KEY AUTO_INCREMENT,
     nazev VARCHAR(100) NOT NULL,
     popis TEXT,
-    prumerna_doba_minut INT,
-    zakladni_cena DECIMAL(8,2),
-    kod_zakroku VARCHAR(20) UNIQUE
+    trvani_minut INT NOT NULL,
+    cena DECIMAL(10, 2) NOT NULL,
+    kod_pojistovny VARCHAR(20)
 );
 
--- 5. Zákroky
-CREATE TABLE zakroky (
-    id_zakroku INT PRIMARY KEY AUTO_INCREMENT,
-    id_pacienta INT NOT NULL,
-    id_lekare INT NOT NULL,
-    id_typu INT NOT NULL,
-    datum_zakroku DATE NOT NULL,
-    cas_zacatku TIME,
-    cas_konce TIME,
-    popis TEXT,
-    cena DECIMAL(8,2),
-    stav ENUM('naplanovany', 'probihajici', 'dokonceny', 'zruseny') DEFAULT 'naplanovany',
-    poznamky TEXT,
-    FOREIGN KEY (id_pacienta) REFERENCES pacienti(id_pacienta),
-    FOREIGN KEY (id_lekare) REFERENCES lekari(id_lekare),
-    FOREIGN KEY (id_typu) REFERENCES typy_zakroku(id_typu)
-);
-
--- 6. Stav chrupu
-CREATE TABLE stav_chrupu (
-    id_stavu INT PRIMARY KEY AUTO_INCREMENT,
-    id_pacienta INT NOT NULL,
-    cislo_zubu INT NOT NULL CHECK (cislo_zubu BETWEEN 11 AND 48),
-    typ_problemu ENUM('zdravy', 'kaz', 'plomba', 'korunka', 'most', 'implant', 'extrakce', 'korenavyplnenka') DEFAULT 'zdravy',
-    material VARCHAR(50),
-    datum_zmeny DATE DEFAULT CURRENT_DATE,
-    popis TEXT,
-    FOREIGN KEY (id_pacienta) REFERENCES pacienti(id_pacienta)
-);
-
--- 7. Pracovní neschopnost
-CREATE TABLE pracovni_neschopnost (
-    id_neschopnosti INT PRIMARY KEY AUTO_INCREMENT,
-    id_pacienta INT NOT NULL,
-    id_lekare INT NOT NULL,
-    datum_od DATE NOT NULL,
-    datum_do DATE NOT NULL,
-    duvod TEXT,
-    kod_diagnozy VARCHAR(10),
-    cislo_potvrzeni VARCHAR(50) UNIQUE,
-    datum_vystaveni DATE DEFAULT CURRENT_DATE,
-    FOREIGN KEY (id_pacienta) REFERENCES pacienti(id_pacienta),
-    FOREIGN KEY (id_lekare) REFERENCES lekari(id_lekare)
-);
-
--- 8. Léky
-CREATE TABLE leky (
-    id_leku INT PRIMARY KEY AUTO_INCREMENT,
-    nazev VARCHAR(100) NOT NULL,
-    ucinna_latka VARCHAR(100),
-    forma VARCHAR(50),
-    koncentrace VARCHAR(50),
-    baleni VARCHAR(50),
-    cena_za_baleni DECIMAL(8,2),
-    kod_sukl VARCHAR(20) UNIQUE,
-    na_predpis BOOLEAN DEFAULT TRUE
-);
-
--- 9. Lékařské předpisy
-CREATE TABLE lekarske_predpisy (
-    id_predpisu INT PRIMARY KEY AUTO_INCREMENT,
-    id_pacienta INT NOT NULL,
-    id_lekare INT NOT NULL,
-    datum_vystaveni DATE DEFAULT CURRENT_DATE,
-    cislo_predpisu VARCHAR(50) UNIQUE,
-    duvod_predpisu TEXT,
-    platnost_do DATE,
-    FOREIGN KEY (id_pacienta) REFERENCES pacienti(id_pacienta),
-    FOREIGN KEY (id_lekare) REFERENCES lekari(id_lekare)
-);
-
--- 10. Předepsané léky (M:N vazba mezi předpisy a léky)
-CREATE TABLE predepsane_leky (
-    id_predepsaneho INT PRIMARY KEY AUTO_INCREMENT,
-    id_predpisu INT NOT NULL,
-    id_leku INT NOT NULL,
-    davkovani VARCHAR(100),
-    pocet_baleni INT DEFAULT 1,
-    pokyny_uzivani TEXT,
-    FOREIGN KEY (id_predpisu) REFERENCES lekarske_predpisy(id_predpisu),
-    FOREIGN KEY (id_leku) REFERENCES leky(id_leku)
-);
-
--- 11. Rezervace
-CREATE TABLE rezervace (
+-- Tabulka Rezervace - termíny návštěv
+CREATE TABLE Rezervace (
     id_rezervace INT PRIMARY KEY AUTO_INCREMENT,
-    id_pacienta INT NOT NULL,
-    id_lekare INT NOT NULL,
-    datum_rezervace DATE NOT NULL,
-    cas_od TIME NOT NULL,
-    cas_do TIME NOT NULL,
-    typ_navstevy VARCHAR(100),
-    stav ENUM('aktivni', 'potvrzena', 'dokoncena', 'zrusena', 'neprisel') DEFAULT 'aktivni',
-    poznamky TEXT,
-    datum_vytvoreni TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_pacienta) REFERENCES pacienti(id_pacienta),
-    FOREIGN KEY (id_lekare) REFERENCES lekari(id_lekare)
+    id_pacient INT NOT NULL,
+    id_zamestnanec INT NOT NULL,
+    datum_cas DATETIME NOT NULL,
+    ucel VARCHAR(200) NOT NULL,
+    stav VARCHAR(20) NOT NULL DEFAULT 'potvrzeno', -- potvrzeno, zrušeno, dokončeno
+    FOREIGN KEY (id_pacient) REFERENCES Pacient(id_pacient),
+    FOREIGN KEY (id_zamestnanec) REFERENCES Zamestnanec(id_zamestnanec)
 );
 
--- 12. Typy komunikace
-CREATE TABLE typy_komunikace (
-    id_typu_komunikace INT PRIMARY KEY AUTO_INCREMENT,
-    nazev VARCHAR(50) NOT NULL,
-    popis VARCHAR(200)
+-- Tabulka ZdravotniKarta - zdravotní záznamy pacientů
+CREATE TABLE ZdravotniKarta (
+    id_zdravotni_karta INT PRIMARY KEY AUTO_INCREMENT,
+    id_pacient INT NOT NULL,
+    datum_vytvoreni DATE NOT NULL,
+    FOREIGN KEY (id_pacient) REFERENCES Pacient(id_pacient)
 );
 
--- 13. Komunikace s pacienty
-CREATE TABLE komunikace (
+-- Tabulka Zaznam - jednotlivé záznamy v zdravotní kartě
+CREATE TABLE Zaznam (
+    id_zaznam INT PRIMARY KEY AUTO_INCREMENT,
+    id_zdravotni_karta INT NOT NULL,
+    id_zamestnanec INT NOT NULL,
+    datum_cas DATETIME NOT NULL,
+    popis TEXT NOT NULL,
+    diagnozy TEXT,
+    FOREIGN KEY (id_zdravotni_karta) REFERENCES ZdravotniKarta(id_zdravotni_karta),
+    FOREIGN KEY (id_zamestnanec) REFERENCES Zamestnanec(id_zamestnanec)
+);
+
+-- Tabulka ZaznamZakrok - M:N vazba mezi záznamy a zákroky
+CREATE TABLE ZaznamZakrok (
+    id_zaznam INT NOT NULL,
+    id_zakrok INT NOT NULL,
+    pocet INT NOT NULL DEFAULT 1,
+    poznamka TEXT,
+    PRIMARY KEY (id_zaznam, id_zakrok),
+    FOREIGN KEY (id_zaznam) REFERENCES Zaznam(id_zaznam),
+    FOREIGN KEY (id_zakrok) REFERENCES Zakrok(id_zakrok)
+);
+
+-- Tabulka PracovniNeschopnost
+CREATE TABLE PracovniNeschopnost (
+    id_neschopnost INT PRIMARY KEY AUTO_INCREMENT,
+    id_pacient INT NOT NULL,
+    id_zamestnanec INT NOT NULL,
+    datum_od DATE NOT NULL,
+    datum_do DATE,
+    duvod TEXT NOT NULL,
+    FOREIGN KEY (id_pacient) REFERENCES Pacient(id_pacient),
+    FOREIGN KEY (id_zamestnanec) REFERENCES Zamestnanec(id_zamestnanec)
+);
+
+-- Tabulka Lek - katalog léků
+CREATE TABLE Lek (
+    id_lek INT PRIMARY KEY AUTO_INCREMENT,
+    nazev VARCHAR(100) NOT NULL,
+    kod_sukl VARCHAR(20) NOT NULL UNIQUE,
+    popis TEXT,
+    jednotka VARCHAR(20) NOT NULL,
+    davkovani VARCHAR(100) NOT NULL
+);
+
+-- Tabulka LekarskyPredpis
+CREATE TABLE LekarskyPredpis (
+    id_predpis INT PRIMARY KEY AUTO_INCREMENT,
+    id_pacient INT NOT NULL,
+    id_zamestnanec INT NOT NULL,
+    id_lek INT NOT NULL,
+    datum_vystaveni DATE NOT NULL,
+    mnozstvi INT NOT NULL,
+    navod TEXT NOT NULL,
+    FOREIGN KEY (id_pacient) REFERENCES Pacient(id_pacient),
+    FOREIGN KEY (id_zamestnanec) REFERENCES Zamestnanec(id_zamestnanec),
+    FOREIGN KEY (id_lek) REFERENCES Lek(id_lek)
+);
+
+-- Tabulka Komunikace - záznamy o komunikaci s pacienty
+CREATE TABLE Komunikace (
     id_komunikace INT PRIMARY KEY AUTO_INCREMENT,
-    id_pacienta INT NOT NULL,
-    id_lekare INT,
-    id_typu_komunikace INT NOT NULL,
-    datum_komunikace TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    predmet VARCHAR(200),
-    obsah TEXT,
-    smer ENUM('odchozi', 'prichozi') NOT NULL,
-    stav ENUM('odeslana', 'dorucena', 'prectena', 'zodpovedana') DEFAULT 'odeslana',
-    FOREIGN KEY (id_pacienta) REFERENCES pacienti(id_pacienta),
-    FOREIGN KEY (id_lekare) REFERENCES lekari(id_lekare),
-    FOREIGN KEY (id_typu_komunikace) REFERENCES typy_komunikace(id_typu_komunikace)
+    id_pacient INT NOT NULL,
+    id_zamestnanec INT NOT NULL,
+    datum_cas DATETIME NOT NULL,
+    typ VARCHAR(20) NOT NULL, -- email, telefon, osobní
+    obsah TEXT NOT NULL,
+    FOREIGN KEY (id_pacient) REFERENCES Pacient(id_pacient),
+    FOREIGN KEY (id_zamestnanec) REFERENCES Zamestnanec(id_zamestnanec)
 );
 
--- 14. Kategorie zásob
-CREATE TABLE kategorie_zasob (
-    id_kategorie INT PRIMARY KEY AUTO_INCREMENT,
-    nazev VARCHAR(100) NOT NULL,
-    popis TEXT
-);
-
--- 15. Dodavatelé
-CREATE TABLE dodavatele (
-    id_dodavatele INT PRIMARY KEY AUTO_INCREMENT,
-    nazev VARCHAR(100) NOT NULL,
-    adresa VARCHAR(200),
-    telefon VARCHAR(20),
-    email VARCHAR(100),
-    ico VARCHAR(20),
-    dic VARCHAR(20),
-    kontaktni_osoba VARCHAR(100),
-    aktivni BOOLEAN DEFAULT TRUE
-);
-
--- 16. Skladové zásoby
-CREATE TABLE skladove_zasoby (
-    id_zasoby INT PRIMARY KEY AUTO_INCREMENT,
+-- Tabulka Material - katalog materiálů pro zákroky
+CREATE TABLE Material (
+    id_material INT PRIMARY KEY AUTO_INCREMENT,
     nazev VARCHAR(100) NOT NULL,
     popis TEXT,
-    id_kategorie INT NOT NULL,
-    id_dodavatele INT,
-    jednotka VARCHAR(20),
-    aktualni_mnozstvi DECIMAL(10,2) DEFAULT 0,
-    minimalni_mnozstvi DECIMAL(10,2) DEFAULT 0,
-    maximalni_mnozstvi DECIMAL(10,2),
-    nakupni_cena DECIMAL(8,2),
-    prodejni_cena DECIMAL(8,2),
-    datum_posledni_dodavky DATE,
+    mernaJednotka VARCHAR(20) NOT NULL,
+    cena_za_jednotku DECIMAL(10, 2) NOT NULL
+);
+
+-- Tabulka SkladovaZasoba - evidence materiálu na skladě
+CREATE TABLE SkladovaZasoba (
+    id_zasoba INT PRIMARY KEY AUTO_INCREMENT,
+    id_material INT NOT NULL,
+    mnozstvi DECIMAL(10, 2) NOT NULL,
     datum_expirace DATE,
-    aktivni BOOLEAN DEFAULT TRUE,
-    FOREIGN KEY (id_kategorie) REFERENCES kategorie_zasob(id_kategorie),
-    FOREIGN KEY (id_dodavatele) REFERENCES dodavatele(id_dodavatele)
+    sarzeCislo VARCHAR(50),
+    FOREIGN KEY (id_material) REFERENCES Material(id_material)
 );
 
--- 17. Pohyby zásob
-CREATE TABLE pohyby_zasob (
-    id_pohybu INT PRIMARY KEY AUTO_INCREMENT,
-    id_zasoby INT NOT NULL,
-    typ_pohybu ENUM('prijem', 'vydej', 'inventura', 'skoda') NOT NULL,
-    mnozstvi DECIMAL(10,2) NOT NULL,
-    cena_za_jednotku DECIMAL(8,2),
-    datum_pohybu TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    duvod VARCHAR(200),
-    id_uzivatel INT,
-    FOREIGN KEY (id_zasoby) REFERENCES skladove_zasoby(id_zasoby)
+-- Tabulka StavChrupu - celkový stav chrupu pacienta
+CREATE TABLE StavChrupu (
+    id_stav INT PRIMARY KEY AUTO_INCREMENT,
+    id_pacient INT NOT NULL UNIQUE,
+    datum_aktualizace DATE NOT NULL,
+    celkovy_popis TEXT,
+    FOREIGN KEY (id_pacient) REFERENCES Pacient(id_pacient)
 );
 
--- 18. Použité materiály při zákrocích (M:N vazba mezi zákroky a zásobami)
-CREATE TABLE pouzite_materialy (
-    id_pouziti INT PRIMARY KEY AUTO_INCREMENT,
-    id_zakroku INT NOT NULL,
-    id_zasoby INT NOT NULL,
-    pouzite_mnozstvi DECIMAL(10,2) NOT NULL,
-    cena_za_jednotku DECIMAL(8,2),
-    FOREIGN KEY (id_zakroku) REFERENCES zakroky(id_zakroku),
-    FOREIGN KEY (id_zasoby) REFERENCES skladove_zasoby(id_zasoby)
+-- Tabulka Zub - jednotlivé zuby
+CREATE TABLE Zub (
+    id_zub INT PRIMARY KEY AUTO_INCREMENT,
+    id_stav INT NOT NULL,
+    cislo_zubu INT NOT NULL, -- standardní označení zubů 11-48
+    stav VARCHAR(50) NOT NULL, -- zdravý, plomba, náhrada, chybějící, apod.
+    poznamka TEXT,
+    FOREIGN KEY (id_stav) REFERENCES StavChrupu(id_stav),
+    UNIQUE KEY (id_stav, cislo_zubu)
 );
 
--- 19. Faktury
-CREATE TABLE faktury (
-    id_faktury INT PRIMARY KEY AUTO_INCREMENT,
-    id_pacienta INT NOT NULL,
-    cislo_faktury VARCHAR(50) UNIQUE NOT NULL,
-    datum_vystaveni DATE DEFAULT CURRENT_DATE,
-    datum_splatnosti DATE,
-    celkova_castka DECIMAL(10,2) NOT NULL,
-    dph DECIMAL(10,2) DEFAULT 0,
-    stav ENUM('nevystavena', 'vystavena', 'odeslana', 'zaplacena', 'po_splatnosti') DEFAULT 'nevystavena',
-    poznamky TEXT,
-    FOREIGN KEY (id_pacienta) REFERENCES pacienti(id_pacienta)
+-- Tabulka ZubniOsetreni - vazba mezi zubem a provedením konkrétního zákroku
+CREATE TABLE ZubniOsetreni (
+    id_osetreni INT PRIMARY KEY AUTO_INCREMENT,
+    id_zub INT NOT NULL,
+    id_zaznam INT NOT NULL,
+    id_zakrok INT NOT NULL,
+    poznamka TEXT,
+    FOREIGN KEY (id_zub) REFERENCES Zub(id_zub),
+    FOREIGN KEY (id_zaznam) REFERENCES Zaznam(id_zaznam),
+    FOREIGN KEY (id_zakrok) REFERENCES Zakrok(id_zakrok)
 );
-
--- 20. Položky faktury
-CREATE TABLE polozky_faktury (
-    id_polozky INT PRIMARY KEY AUTO_INCREMENT,
-    id_faktury INT NOT NULL,
-    id_zakroku INT,
-    popis VARCHAR(200) NOT NULL,
-    mnozstvi DECIMAL(10,2) DEFAULT 1,
-    jednotkova_cena DECIMAL(8,2) NOT NULL,
-    celkova_cena DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (id_faktury) REFERENCES faktury(id_faktury),
-    FOREIGN KEY (id_zakroku) REFERENCES zakroky(id_zakroku)
-);
-
--- Indexy pro lepší výkon
-CREATE INDEX idx_pacienti_prijmeni ON pacienti(prijmeni);
-CREATE INDEX idx_pacienti_rodne_cislo ON pacienti(rodne_cislo);
-CREATE INDEX idx_zakroky_datum ON zakroky(datum_zakroku);
-CREATE INDEX idx_rezervace_datum ON rezervace(datum_rezervace);
-CREATE INDEX idx_komunikace_datum ON komunikace(datum_komunikace);
-CREATE INDEX idx_stav_chrupu_pacient_zub ON stav_chrupu(id_pacienta, cislo_zubu);
